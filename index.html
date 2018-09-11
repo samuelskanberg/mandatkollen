@@ -59,7 +59,7 @@
 
                 // Get all the blocks of parties and their total mandates
                 var blocks = {};
-                for (var block_count = 1; block_count <= 7; block_count++) {
+                for (var block_count = 1; block_count <= 8; block_count++) {
                     var block_id = "block_"+block_count;
                     var block = $('input[name="'+block_id+'"]').val();
                     var block_name = $('input[name="'+block_id+'_name"]').val();
@@ -210,6 +210,8 @@ Namn - konstellation<br/>
 <input type="text" name="block_6_name"/>: <input type="text" name="block_6"/>
 <br/>
 <input type="text" name="block_7_name"/>: <input type="text" name="block_7"/>
+<br/>
+<input type="text" name="block_8_name"/>: <input type="text" name="block_8"/>
 
 <br/><br/>
 Nämndstorlek: <input type="text" name="board_size" value=15 />
