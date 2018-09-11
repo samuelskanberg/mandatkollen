@@ -3,7 +3,29 @@
     <title>Mandatkoll</title>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script>
-        $(document).ready(function(){
+        $(document).ready(function() {
+            function get_biggest_blocks(blocks, blocks_board_allocation) {
+                var biggest_block_compare_factor = -1;
+                var biggest_blocks = [];
+                for (var i = 0; i < Object.keys(blocks).length; i++) {
+                    var block_name =  Object.keys(blocks)[i];
+                    var compare_factor = blocks[block_name] / (blocks_board_allocation[block_name]+1);
+                    console.log("Block name: "+block_name+", compare factor: "+compare_factor);
+
+                    if (compare_factor > biggest_block_compare_factor) {
+                        biggest_block_compare_factor = compare_factor;
+                        biggest_blocks = [block_name];
+                    } else if (compare_factor == biggest_block_compare_factor) {
+                        biggest_blocks.push(block_name);
+                    }
+                }
+
+                return {
+                    'compare_factor': biggest_block_compare_factor,
+                    'biggest_blocks': biggest_blocks
+                };
+            }
+
             $("#calculate").click(function(){
                 var mandates = {};
 
@@ -46,6 +68,47 @@
                     }
                 }
                 console.log(blocks);
+
+                if (Object.keys(blocks).length <= 1) {
+                    alert("Du måste ha minst två block");
+                    return ;
+                }
+
+                // Get the size of the board
+                var board_size = parseInt($('input[name="board_size"]').val());
+                console.log("board_size:"+board_size)
+
+                if (isNaN(board_size)) {
+                    alert("Nämndstorleken måste vara en siffra");
+                    return ;
+                }
+
+                var blocks_board_allocation = {};
+                for (var i = 0; i < Object.keys(blocks).length; i++) {
+                    blocks_board_allocation[Object.keys(blocks)[i]] = 0;
+                }
+                console.log(blocks_board_allocation);
+
+                // Calculate
+                var description = '';
+                for (var i = 0; i < board_size; i++) {
+                    // See what block should get the next seat
+                    var biggest_blocks = get_biggest_blocks(blocks, blocks_board_allocation);
+
+                    var biggest_block = null;
+                    console.log(biggest_blocks);
+                    if (biggest_blocks.biggest_blocks.length > 1) {
+                        console.log("Samma storlek. Lottning!")
+                        // TODO: Randomize
+                        biggest_block = biggest_blocks.biggest_blocks[1];
+                    } else {
+                        biggest_block = biggest_blocks.biggest_blocks[0];
+                    }
+
+                    blocks_board_allocation[biggest_block] += 1;
+                }
+
+                console.log(blocks_board_allocation);
 
             });
         });
@@ -97,6 +160,9 @@ Nämndstorlek: <input type="text" name="board_size" value=15 />
 
 <br/>
 <input id="calculate" type="button" value="Räkna ut"/>
+
+<div id="division_result"></div>
+<div id="block_result"></div>
 
 </body>
 </html>
