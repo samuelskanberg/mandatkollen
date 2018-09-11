@@ -16,15 +16,20 @@
                 mandates['c'] = parseInt($('input[name="parti_c"]').val());
                 mandates['kd'] = parseInt($('input[name="parti_kd"]').val());
                 mandates['m'] = parseInt($('input[name="parti_m"]').val());
-                
+
                 console.log(mandates);
 
                 // Get all the blocks of parties and their total mandates
                 var blocks = {};
                 for (var block_count = 1; block_count <= 7; block_count++) {
-                    var block_name = "block_"+block_count;
-                    var block = $('input[name="'+block_name+'"]').val();
+                    var block_id = "block_"+block_count;
+                    var block = $('input[name="'+block_id+'"]').val();
+                    var block_name = $('input[name="'+block_id+'_name"]').val();
                     block = block.toLowerCase();
+                    if ((block_name.length > 0  && block.length == 0) ||
+                        (block_name.length == 0  && block.length > 0)) {
+                        alert("Om du anger ett namn för blocket måste du också ange konstellation och vice versa");
+                    }
                     if (block.length > 0) {
                         var res = block.split(',');
                         var block_total_mandates = 0;
@@ -32,12 +37,12 @@
                             var party = res[i];
                             if (!(party in mandates)) {
                                 console.log("error! party does not exist");
-                                alert("Partiet "+party+" finns inte med i listan"); 
+                                alert("Partiet "+party+" finns inte med i listan");
                                 return;
                             }
                             block_total_mandates += mandates[party];
                         }
-                        blocks[block_count] = block_total_mandates;
+                        blocks[block_name] = block_total_mandates;
                     }
                 }
                 console.log(blocks);
@@ -72,19 +77,23 @@ M: <input type="text" name="parti_m" value="16"/>
 Kommaseparerad
 
 <br/>
-1: <input type="text" name="block_1"/>
+Namn - konstellation<br/>
+<input type="text" name="block_1_name"/>: <input type="text" name="block_1"/>
 <br/>
-2: <input type="text" name="block_2"/>
+<input type="text" name="block_2_name"/>: <input type="text" name="block_2"/>
 <br/>
-3: <input type="text" name="block_3"/>
+<input type="text" name="block_3_name"/>: <input type="text" name="block_3"/>
 <br/>
-4: <input type="text" name="block_4"/>
+<input type="text" name="block_4_name"/>: <input type="text" name="block_4"/>
 <br/>
-5: <input type="text" name="block_5"/>
+<input type="text" name="block_5_name"/>: <input type="text" name="block_5"/>
 <br/>
-6: <input type="text" name="block_6"/>
+<input type="text" name="block_6_name"/>: <input type="text" name="block_6"/>
 <br/>
-7: <input type="text" name="block_7"/>
+<input type="text" name="block_7_name"/>: <input type="text" name="block_7"/>
+
+<br/><br/>
+Nämndstorlek: <input type="text" name="board_size" value=15 />
 
 <br/>
 <input id="calculate" type="button" value="Räkna ut"/>
