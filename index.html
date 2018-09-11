@@ -152,6 +152,19 @@
 
                 $('#division_result').html(description);
 
+                var block_division = '<h3>Platser</h3>';
+                block_division += '<table>';
+                for (var i = 0; i < blocks_name.length; i++) {
+                    block_division += '<tr>';
+                    block_division += '<td>'+blocks_name[i]+'</td>';
+                    block_division += '<td>'+blocks_board_allocation[blocks_name[i]]+'</td>';
+
+                    block_division += '</tr>';
+                }
+                block_division += '</table>';
+
+                $('#block_result').html(block_division);
+
 
             });
         });
