@@ -124,7 +124,8 @@
                     console.log("compare_factors");
                     console.log(compare_factors);
                     for (var ci = 0; ci < blocks_name.length; ci++) {
-                        description += '<td>'+compare_factors[blocks_name[ci]]+'</td>';
+                        var block_name = blocks_name[ci];
+                        description += '<td>'+blocks[block_name]+' / '+(blocks_board_allocation[block_name]+1)+' = '+compare_factors[block_name]+'</td>';
                     }
 
                     var biggest_blocks = get_biggest_blocks(compare_factors);
