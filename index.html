@@ -1,0 +1,92 @@
+<html>
+<head>
+    <title>Mandatkoll</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script>
+        $(document).ready(function(){
+            $("#calculate").click(function(){
+                console.log("hello");
+                var mandates = {};
+
+                mandates['s'] = parseInt($('input[name="parti_s"]').val());
+                mandates['v'] = parseInt($('input[name="parti_v"]').val());
+                mandates['mp'] = parseInt($('input[name="parti_mp"]').val());
+                mandates['sd'] = parseInt($('input[name="parti_sd"]').val());
+                mandates['l'] = parseInt($('input[name="parti_l"]').val());
+                mandates['c'] = parseInt($('input[name="parti_c"]').val());
+                mandates['kd'] = parseInt($('input[name="parti_kd"]').val());
+                mandates['m'] = parseInt($('input[name="parti_m"]').val());
+                
+                console.log(mandates);
+                var blocks = {};
+                var block_a = $('input[name="block_a"]').val();
+                console.log("block_a: "+block_a);
+                if (block_a.length > 0) {
+                    console.log("Hello");
+                    var res = block_a.split(',');
+                    console.log(res);
+                    for (var i = 0; i < res.length; i++) {
+                        var party = res[i];
+                        if (!(party in mandates)) {
+                            console.log("error! party does not exist");
+                            alert("Partiet "+party+" finns inte med i listan"); 
+                            return;
+                        }
+                        
+                    }
+                }
+                var block_b = $('input[name="block_b"]').val();
+                var block_c = $('input[name="block_c"]').val();
+                var block_d = $('input[name="block_d"]').val();
+                var block_e = $('input[name="block_e"]').val();
+                var block_f = $('input[name="block_f"]').val();
+                var block_g = $('input[name="block_g"]').val();
+            });
+        });
+    </script>
+<body>
+
+<h1>Mandatkoll</h1>
+
+<h2>Mandat för partier</h2>
+<br/>
+S: <input type="text" name="parti_s" value="16"/>
+<br/>
+V: <input type="text" name="parti_v" value="4"/>
+<br/>
+MP: <input type="text" name="parti_mp" value="3"/>
+<br/>
+SD: <input type="text" name="parti_sd" value="11"/>
+<br/>
+L: <input type="text" name="parti_l" value="4"/>
+<br/>
+C: <input type="text" name="parti_c" value="4"/>
+<br/>
+KD: <input type="text" name="parti_kd" value="3"/>
+<br/>
+M: <input type="text" name="parti_m" value="16"/>
+
+<h2>Block</h2>
+
+Kommaseparerad
+
+<br/>
+A: <input type="text" name="block_a"/>
+<br/>
+B: <input type="text" name="block_b"/>
+<br/>
+C: <input type="text" name="block_c"/>
+<br/>
+D: <input type="text" name="block_d"/>
+<br/>
+E: <input type="text" name="block_e"/>
+<br/>
+F: <input type="text" name="block_f"/>
+<br/>
+G: <input type="text" name="block_g"/>
+
+<br/>
+<input id="calculate" type="button" value="Räkna ut"/>
+
+</body>
+</html>
