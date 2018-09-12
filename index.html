@@ -46,20 +46,25 @@
                 var mandates = {};
 
                 // Get mandates for all the parties
-                mandates['s'] = parseInt($('input[name="parti_s"]').val());
-                mandates['v'] = parseInt($('input[name="parti_v"]').val());
-                mandates['mp'] = parseInt($('input[name="parti_mp"]').val());
-                mandates['sd'] = parseInt($('input[name="parti_sd"]').val());
-                mandates['l'] = parseInt($('input[name="parti_l"]').val());
-                mandates['c'] = parseInt($('input[name="parti_c"]').val());
-                mandates['kd'] = parseInt($('input[name="parti_kd"]').val());
-                mandates['m'] = parseInt($('input[name="parti_m"]').val());
+                for (var i = 1; i <= 12; i++) {
+                    var party_name = $('input[name="party_'+i+'_name"]').val().toLowerCase();
+                    console.log("i: "+i);
 
+                    if (party_name.length == 0) {
+                        continue;
+                    }
+                    console.log("party_name: "+party_name);
+                    var party_count = parseInt($('input[name="party_'+i+'"]').val());
+                    console.log("party_count: "+party_count);
+                    mandates[party_name] = party_count;
+                }
+
+                console.log("mandates");
                 console.log(mandates);
 
                 // Get all the blocks of parties and their total mandates
                 var blocks = {};
-                for (var block_count = 1; block_count <= 8; block_count++) {
+                for (var block_count = 1; block_count <= 12; block_count++) {
                     var block_id = "block_"+block_count;
                     var block = $('input[name="'+block_id+'"]').val();
                     var block_name = $('input[name="'+block_id+'_name"]').val();
@@ -105,6 +110,21 @@
                     blocks_board_allocation[blocks_name[i]] = 0;
                 }
                 console.log(blocks_board_allocation);
+
+                // Show block sizes
+                var block_sizes = '<h3>Blockstorlekar</h3>';
+                block_sizes += '<table>';
+                for (var i = 0; i < blocks_name.length; i++) {
+                    block_sizes += '<tr>';
+                    block_sizes += '<td>'+blocks_name[i]+'</td>';
+                    block_sizes += '<td>'+blocks[blocks_name[i]]+'</td>';
+
+                    block_sizes += '</tr>';
+                }
+                block_sizes += '</table>';
+
+                $('#block_sizes').html(block_sizes);
+
 
                 // Calculate
                 var description = '<h3>Uträkning</h3>';
@@ -175,21 +195,29 @@
 
 <h2>Mandat för partier</h2>
 <br/>
-S: <input type="text" name="parti_s" value="16"/>
+<input type="text" name="party_1_name" value="S"/>: <input type="text" name="party_1" value="16"/>
 <br/>
-V: <input type="text" name="parti_v" value="4"/>
+<input type="text" name="party_2_name" value="V"/>: <input type="text" name="party_2" value="4"/>
 <br/>
-MP: <input type="text" name="parti_mp" value="3"/>
+<input type="text" name="party_3_name" value="MP"/>: <input type="text" name="party_3" value="3"/>
 <br/>
-SD: <input type="text" name="parti_sd" value="11"/>
+<input type="text" name="party_4_name" value="SD"/>: <input type="text" name="party_4" value="11"/>
 <br/>
-L: <input type="text" name="parti_l" value="4"/>
+<input type="text" name="party_5_name" value="L"/>: <input type="text" name="party_5" value="4"/>
 <br/>
-C: <input type="text" name="parti_c" value="4"/>
+<input type="text" name="party_6_name" value="C"/>: <input type="text" name="party_6" value="4"/>
 <br/>
-KD: <input type="text" name="parti_kd" value="3"/>
+<input type="text" name="party_7_name" value="KD"/>: <input type="text" name="party_7" value="3"/>
 <br/>
-M: <input type="text" name="parti_m" value="16"/>
+<input type="text" name="party_8_name" value="M"/>: <input type="text" name="party_8" value="16"/>
+<br/>
+<input type="text" name="party_9_name" value=""/>: <input type="text" name="party_9" value=""/>
+<br/>
+<input type="text" name="party_10_name" value=""/>: <input type="text" name="party_10" value=""/>
+<br/>
+<input type="text" name="party_11_name" value=""/>: <input type="text" name="party_11" value=""/>
+<br/>
+<input type="text" name="party_12_name" value=""/>: <input type="text" name="party_12" value=""/>
 
 <h2>Block</h2>
 
@@ -212,6 +240,14 @@ Namn - konstellation<br/>
 <input type="text" name="block_7_name"/>: <input type="text" name="block_7"/>
 <br/>
 <input type="text" name="block_8_name"/>: <input type="text" name="block_8"/>
+<br/>
+<input type="text" name="block_9_name"/>: <input type="text" name="block_9"/>
+<br/>
+<input type="text" name="block_10_name"/>: <input type="text" name="block_10"/>
+<br/>
+<input type="text" name="block_11_name"/>: <input type="text" name="block_11"/>
+<br/>
+<input type="text" name="block_12_name"/>: <input type="text" name="block_12"/>
 
 <br/><br/>
 Nämndstorlek: <input type="text" name="board_size" value=15 />
@@ -219,6 +255,7 @@ Nämndstorlek: <input type="text" name="board_size" value=15 />
 <br/>
 <input id="calculate" type="button" value="Räkna ut"/>
 
+<div id="block_sizes"></div>
 <div id="division_result"></div>
 <div id="block_result"></div>
 
